@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { ListGroup, ListGroupItem , Button} from 'reactstrap';
+//import { CSSTransition, TransitionGroup} from 'react-transition-group';
+import 'bootstrap/dist/css/bootstrap.css';
+import './todo.css';
 import '../App.css';
 
 class Todo extends Component {
@@ -42,20 +46,22 @@ class Todo extends Component {
                 <input type="submit" value="Add"/>
               </form>
             </div>
-    
-            <table align="center">
-              <tbody>
+            
+            <ListGroup align="left">
 
-                {this.state.todoList.map((todo, index) =>
-                  <tr key={index}>
-                    <td>{todo}</td>
-                    <td><button onClick={() => this.deleteTodo(index)}>Delete</button></td>               
-                  </tr>
-                )}
-    
-              </tbody>
-            </table>
-    
+                    {this.state.todoList.map((todo, index) => (                 
+                        <ListGroupItem key={index}>
+                            <Button
+                                className="remove-btn"
+                                color="danger"
+                                size="sm"                          
+                                onClick={() => this.deleteTodo(index)}>&times;
+                            </Button>
+                            {todo}
+                        </ListGroupItem>
+                    ))}
+            </ListGroup>
+            
           </div>
     
         );
