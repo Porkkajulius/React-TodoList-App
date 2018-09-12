@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem , Button} from 'reactstrap';
+import { ListGroup, ListGroupItem , Button, Table} from 'reactstrap';
 //import { CSSTransition, TransitionGroup} from 'react-transition-group';
 import 'bootstrap/dist/css/bootstrap.css';
 import './todo.css';
@@ -46,6 +46,7 @@ class Todo extends Component {
             this.setState((previousState) => {
               const todo = previousState.todo
               return { todo: {...todo, [key]: value} }
+              
             })
           }
       
@@ -58,32 +59,46 @@ class Todo extends Component {
               <form onSubmit={this.addTodo}>
 
                 <input type="text" value={this.state.todo.description} onChange={(e) => {
-                    this.onChange(e.target.value, 'description')}
-                }/>
+                    this.onChange(e.target.value, 'description')
+                }}/>
+                
                 <input type="text" value={this.state.todo.date} onChange={(e) => {
-                    this.onChange(e.target.value, 'date')}
-                }/>
+                    this.onChange(e.target.value, 'date')
+                }}/>
 
                 <input type="submit" value="Add"/>
               </form>
             </div>
-            
-            <ListGroup align="left">
 
-                    {this.state.todoList.map((todo, index) => (                 
-                        <ListGroupItem key={index}>
-                            <Button
-                                className="remove-btn"
-                                color="danger"
-                                size="sm"                          
-                                onClick={() => this.deleteTodo(index)}>&times;
-                            </Button>
-                           {todo.description}
-                           {todo.date}
-                        </ListGroupItem>
-                    ))}
-            </ListGroup>
-            
+                   <Table striped bordered condensed hover>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Description</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.todoList.map((todo, index) => (        
+                                <tr>
+                                    <td>
+                                        <Button
+                                            className="remove-btn"
+                                            color="danger"
+                                            size="sm"                          
+                                            onClick={() => this.deleteTodo(index)}>&times;
+                                        </Button>
+                                    </td>
+                                    <td>{todo.description}</td>
+                                    <td>{todo.date}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                </Table>
+
+  
+          
+
           </div>
     
         );
