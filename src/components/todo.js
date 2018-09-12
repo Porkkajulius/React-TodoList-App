@@ -10,14 +10,21 @@ class Todo extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {description: '', todoList: []};
-        }
+        this.state = {
+            todo: {
+                description: '', 
+                date: '',
+            },
+
+            todoList: []
+        };
+    }
         
         // inserts new todo to todoList
         addTodo = (event) => {
           event.preventDefault();
           this.setState({
-            todoList: [...this.state.todoList, this.state.description]
+            todoList: [...this.state.todoList, this.state.todo]
           });
         }
     
@@ -32,8 +39,15 @@ class Todo extends Component {
         
         // value in the input field
         inputChanged = (event) => {
-          this.setState({description: event.target.value});
+          this.setState({ [event.target.name]: event.target.value });
         }
+
+        onChange(value, key) {
+            this.setState((previousState) => {
+              const todo = previousState.todo
+              return { todo: {...todo, [key]: value} }
+            })
+          }
       
       render() {
         return (
@@ -42,7 +56,14 @@ class Todo extends Component {
             <h2>Todolist</h2>
             <div>
               <form onSubmit={this.addTodo}>
-                <input type="text" onChange={this.inputChanged} value={this.state.description}/>
+
+                <input type="text" value={this.state.todo.description} onChange={(e) => {
+                    this.onChange(e.target.value, 'description')}
+                }/>
+                <input type="text" value={this.state.todo.date} onChange={(e) => {
+                    this.onChange(e.target.value, 'date')}
+                }/>
+
                 <input type="submit" value="Add"/>
               </form>
             </div>
@@ -57,7 +78,8 @@ class Todo extends Component {
                                 size="sm"                          
                                 onClick={() => this.deleteTodo(index)}>&times;
                             </Button>
-                            {todo}
+                           {todo.description}
+                           {todo.date}
                         </ListGroupItem>
                     ))}
             </ListGroup>
